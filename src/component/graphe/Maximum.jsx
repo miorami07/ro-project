@@ -22,14 +22,14 @@ const Maximum = ({ nodes = [], edges = [] }) => {
     index,
   }));
 
-  const parseValue = (val) => (val === "∞" ? -Infinity : Number(val)); // Changement: "∞" devient -Infinity
+  const parseValue = (val) => (val === "∞" ? -Infinity : Number(val));
 
   const getNumericMatrix = () => {
     if (nodes.length === 0) return [];
 
     return normalizedNodes.map((sourceNode, i) => {
       return normalizedNodes.map((targetNode, j) => {
-        if (i === j) return -Infinity; // Diagonale à -∞
+        if (i === j) return -Infinity;
         const edgeKey = `${sourceNode.id}-${targetNode.id}`;
         return parseValue(edgeMap[edgeKey] ?? -Infinity); // Valeur par défaut -Infinity
       });
@@ -140,51 +140,66 @@ const Maximum = ({ nodes = [], edges = [] }) => {
     nodes.length > 0 ? formatMatrix(getNumericMatrix(), 0).matrix : [];
 
   return (
-    <div style={{ padding: 16 }}>
-      <button
-        onClick={handleCalculate}
-        style={{
-          marginBottom: 20,
-          padding: "10px 16px",
-          backgroundColor: "green",
-          color: "white",
-          border: "none",
-          borderRadius: 4,
-          cursor: "pointer",
-          fontSize: "20px",
-        }}
-        disabled={nodes.length === 0}
+    <div>
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        gap={{ xs: 2, md: 2 }}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        flexWrap="wrap"
+        paddingTop={4}
       >
-        Maximiser
-      </button>
-
+        <button
+          onClick={handleCalculate}
+          style={{
+            marginBottom: 20,
+            padding: "10px 16px",
+            backgroundColor: "green",
+            color: "white",
+            border: "none",
+            borderRadius: 4,
+            cursor: "pointer",
+            fontSize: "20px",
+          }}
+          disabled={nodes.length === 0}
+        >
+          Maximiser
+        </button>
+      </Stack>
       {hasCalculated && (
         <div
           style={{
             backgroundColor: "#e3f2fd",
-            padding: 16,
+            padding: { xs: 12, md: 16 },
             borderRadius: 4,
-            marginBottom: 20,
-            fontSize: "18px",
+            marginBottom: { xs: 10, md: 20 },
+            fontSize: { xs: "16px", md: "20px" },
           }}
         >
           {longestPath.length > 0 ? (
-            <Stack direction={"row"} gap={2} alignItems={"center"}>
-              <p>Résultat :</p>
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              gap={{ xs: 1, sm: 2 }}
+              alignItems={{ xs: "flex-start", sm: "center" }}
+              flexWrap="wrap"
+              padding={2}
+            >
+              <div style={{ display: "flex", flexDirection: "row", gap: 2 }}>
+                <p>Résultat :</p>
+                <p>
+                  <strong>Coût total :</strong> {pathCost}
+                </p>
+              </div>
               <p>
-                <strong>Coût total :</strong> {pathCost}
-              </p>
-              <p>
-                <strong>Chemin maximal:</strong>{" "}
+                <strong>Chemin maximal :</strong>{" "}
                 {longestPath.map((node) => `X${node + 1}`).join(" → ")}
               </p>
             </Stack>
           ) : (
-            <p>Aucun chemin trouvé de X1 à X{nodes.length}</p>
+            <p>Aucun chemin trouvé</p>
           )}
         </div>
       )}
-
       {steps.length === 0 ? (
         <MatrixDisplay
           matrix={initialMatrix}
@@ -195,9 +210,10 @@ const Maximum = ({ nodes = [], edges = [] }) => {
         <div
           style={{
             display: "flex",
+            flexDirection: { xs: "column", md: "row" },
             flexWrap: "wrap",
-            gap: 10,
-            height: "100%",
+            gap: 20,
+            paddingTop: 10,
           }}
         >
           {steps.map((step, index) => (
@@ -223,7 +239,13 @@ const MatrixDisplay = ({
 }) => {
   if (!matrix || matrix.length === 0 || !matrix[0]) {
     return (
-      <div style={{ color: "#f44336", padding: 16 }}>
+      <div
+        style={{
+          color: "#f44336",
+          padding: { xs: 12, md: 16 },
+          textAlign: "center",
+        }}
+      >
         Aucune donnée matricielle à afficher
       </div>
     );
@@ -232,20 +254,37 @@ const MatrixDisplay = ({
   return (
     <div
       style={{
-        marginBottom: 30,
+        marginBottom: { xs: 20, md: 30 },
         border: "1px solid #e0e0e0",
         borderRadius: 4,
         padding: 16,
         backgroundColor: "#fff",
-        width: 500,
+        width: { xs: "100%", sm: "80%", md: 500 },
+        maxWidth: "100%",
+        margin: { xs: "0 auto", md: "initial" },
       }}
     >
-      <h3 style={{ marginTop: 0, color: "#1976d2" }}>{title}</h3>
-      <div style={{ overflowX: "auto", maxHeight: "calc(100vh - 200px)" }}>
+      <h3
+        style={{
+          marginTop: 0,
+          color: "#1976d2",
+          fontSize: { xs: "18px", md: "20px" },
+        }}
+      >
+        {title}
+      </h3>
+      <div
+        style={{
+          overflowX: "auto",
+          maxHeight: { xs: "none", md: "calc(100vh - 200px)" },
+          width: "100%",
+        }}
+      >
         <table
           style={{
             borderCollapse: "collapse",
             width: "100%",
+            fontSize: { xs: "14px", md: "16px" },
           }}
         >
           <thead>
@@ -257,7 +296,7 @@ const MatrixDisplay = ({
                   style={{
                     padding: 8,
                     textAlign: "center",
-                    minWidth: 50,
+                    minWidth: { xs: 40, md: 50 },
                   }}
                 >
                   {j + 1}
@@ -293,7 +332,7 @@ const MatrixDisplay = ({
                         textAlign: "center",
                         backgroundColor: isChanged ? "#ffeaa7" : "white",
                         fontWeight: isChanged ? "bold" : "normal",
-                        minWidth: 50,
+                        minWidth: { xs: 40, md: 50 },
                       }}
                     >
                       {cell.value}

@@ -38,7 +38,7 @@ const DynamicGraph = () => {
 
       const newNodes = Array.from({ length: nodeCount }, (_, i) => ({
         id: `node-${i + 1}`,
-        x: basePosition.x + i * 60,
+        x: basePosition.x + i * 30,
         y: basePosition.y,
         label: `X${i + 1}`,
         value: (i + 1).toString(),
@@ -112,7 +112,7 @@ const DynamicGraph = () => {
     );
   };
   const { lastPathCost } = useContext(PathCostsContext);
-  // Vérifie si deux nœuds sont adjacents dans le chemin
+
   function isAdjacentInPath(path, sourceLabel, targetLabel) {
     const sourceIndex = path.indexOf(sourceLabel);
     const targetIndex = path.indexOf(targetLabel);
@@ -120,16 +120,31 @@ const DynamicGraph = () => {
     return Math.abs(sourceIndex - targetIndex) === 1;
   }
   return (
-    <div>
+    <div
+      style={{
+        width: "100%",
+        height: "100vh",
+        overflow: "hidden",
+      }}
+    >
       <Stack
-        direction="row"
+        direction={{ xs: "column", md: "row" }}
         gap={2}
         style={{
           width: "100%",
-          height: "100vh",
+          height: "100%",
         }}
+        display={"flex"}
+        flexWrap={"nowrap"}
       >
-        <div style={{ width: "40%" }}>
+        {/* Partie Graphique */}
+        <div
+          style={{
+            width: { xs: "100%", md: "70%" },
+            height: { xs: "50vh", md: "100%" },
+            position: "relative",
+          }}
+        >
           <div
             style={{
               position: "absolute",
@@ -139,15 +154,17 @@ const DynamicGraph = () => {
               background: "#fff",
               padding: 10,
               borderRadius: 5,
+              width: "calc(100% - 40px)",
+              boxSizing: "border-box",
             }}
           >
             <div
               style={{
                 display: "flex",
                 gap: 4,
-                justifyContent: "space-between",
                 alignItems: "center",
-                flexWrap: "wrap",
+                width: "100%",
+                justifyContent: "space-between",
               }}
             >
               <input
@@ -157,9 +174,11 @@ const DynamicGraph = () => {
                 placeholder="Entrer le nombre de nœuds"
                 min={1}
                 style={{
-                  fontSize: 20,
+                  fontSize: "20px",
                   borderColor: "lightblue",
                   borderRadius: 4,
+                  boxSizing: "border-box",
+                  width: "50%",
                 }}
               />
               <button
@@ -172,16 +191,25 @@ const DynamicGraph = () => {
                   border: "none",
                   borderRadius: 4,
                   cursor: "pointer",
-                  fontSize: "25px",
-                  float: "right",
-                  padding: "10px 16px",
+                  fontSize: "20px",
+                  padding: { xs: "8px 12px", md: "10px 16px" },
+                  whiteSpace: "nowrap",
                 }}
               >
                 Ajouter un nœud
               </button>
             </div>
 
-            <div style={{ marginTop: 10 }}>
+            <div
+              style={{
+                marginTop: 10,
+                display: "flex",
+                justifyContent: "space-between",
+                gap: 4,
+                alignItems: "center",
+                flexWrap: { xs: "wrap", md: "none" },
+              }}
+            >
               <input
                 type="number"
                 value={edgeValue}
@@ -189,12 +217,22 @@ const DynamicGraph = () => {
                 placeholder="Valeur du lien"
                 min={1}
                 style={{
-                  fontSize: 20,
+                  fontSize: "20px",
                   borderColor: "lightblue",
                   borderRadius: 4,
+                  width: "50%",
+                  boxSizing: "border-box",
                 }}
+                size={"normal"}
               />
-              <span style={{ marginLeft: 10 }}>
+              <span
+                style={{
+                  marginLeft: 10,
+                  fontSize: { xs: 14, md: 16 },
+                  display: "inline-block",
+                  marginTop: { xs: 5, md: 0 },
+                }}
+              >
                 {linkingNode
                   ? `Cliquez sur un autre nœud pour relier à "${
                       nodes.find((n) => n.id === linkingNode)?.label
@@ -202,7 +240,14 @@ const DynamicGraph = () => {
                   : "Sélectionnez un nœud pour commencer un lien"}
               </span>
             </div>
-            <div style={{ marginTop: 10, fontSize: "14px", color: "#444" }}>
+            <div
+              style={{
+                marginTop: 10,
+                fontSize: { xs: 12, md: 14 },
+                color: "#444",
+                lineHeight: 1.4,
+              }}
+            >
               💡 Ctrl + clic sur un **nœud** pour le supprimer
               <br />
               💡 Ctrl + clic sur une **arête** pour la supprimer
@@ -211,10 +256,15 @@ const DynamicGraph = () => {
 
           <svg
             id="graph-svg"
-            width="100%"
+            minWidth="100%"
             height="100%"
-            viewBox="0 0 1000 600"
-            style={{ backgroundColor: "#f0f0f0", cursor: "crosshair" }}
+            viewBox="0 0 500 500"
+            preserveAspectRatio="xMidYMid meet"
+            style={{
+              backgroundColor: "#f0f0f0",
+              cursor: "crosshair",
+              overflow: "auto",
+            }}
             onClick={(e) => (newNode ? addNode(e) : handleAddNode(e))}
             onMouseMove={handleDrag}
             onMouseUp={() => setDraggedNode(null)}
@@ -257,7 +307,7 @@ const DynamicGraph = () => {
                         ? "red"
                         : "#666"
                     }
-                    strokeWidth="2"
+                    strokeWidth="3"
                     markerEnd="url(#arrowhead)"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -270,9 +320,8 @@ const DynamicGraph = () => {
                   <text
                     x={(source.x + target.x) / 2}
                     y={(source.y + target.y) / 2}
-                    // textAnchor="middle"
                     fill="#d32f2f"
-                    fontSize="14"
+                    fontSize="20"
                   >
                     {edge.value || 1}
                   </text>
@@ -280,7 +329,6 @@ const DynamicGraph = () => {
               );
             })}
 
-            {/* Nœuds */}
             {nodes.map((node) => (
               <g
                 key={node.id}
@@ -313,7 +361,7 @@ const DynamicGraph = () => {
                 style={{ cursor: "move" }}
               >
                 <circle
-                  r="20"
+                  r="15"
                   fill={
                     lastPathCost?.path?.includes(node.id)
                       ? "yellow"
@@ -330,7 +378,7 @@ const DynamicGraph = () => {
                   fill={
                     lastPathCost?.path?.includes(node.id) ? "black" : "white"
                   }
-                  fontSize="12"
+                  fontSize="10"
                   fontWeight="bold"
                 >
                   {node.label}
@@ -339,7 +387,15 @@ const DynamicGraph = () => {
             ))}
           </svg>
         </div>
-        <div style={{ width: "60%", height: "100%", overflow: "auto" }}>
+        <div
+          style={{
+            maxWidth: { xs: "100%", md: "50%" },
+            height: { xs: "50vh", md: "100%" },
+            overflow: "auto",
+            padding: "10px 10px",
+            boxSizing: "border-box",
+          }}
+        >
           <Tableau nodes={nodes} edges={edges} />
           <Maximum nodes={nodes} edges={edges} />
         </div>
