@@ -138,12 +138,12 @@ const DynamicGraph = () => {
         flexWrap={"nowrap"}
       >
         {/* Partie Graphique */}
-        <div
+        <Stack
           style={{
-            width: { xs: "100%", md: "70%" },
             height: { xs: "50vh", md: "100%" },
             position: "relative",
           }}
+          width={{ xs: "100%", sm: "90%", md: "50%" }}
         >
           <div
             style={{
@@ -386,7 +386,7 @@ const DynamicGraph = () => {
               </g>
             ))}
           </svg>
-        </div>
+        </Stack>
         <div
           style={{
             maxWidth: { xs: "100%", md: "50%" },
