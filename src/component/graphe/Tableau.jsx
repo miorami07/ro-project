@@ -142,7 +142,7 @@ const Tableau = ({ nodes = [], edges = [] }) => {
           direction={{ xs: "column", md: "row" }}
           gap={{ xs: 2, md: 2 }}
           justifyContent={"space-between"}
-          alignItems={"center"}
+          alignItems="center"
           flexWrap="wrap"
         >
           <span
@@ -160,9 +160,9 @@ const Tableau = ({ nodes = [], edges = [] }) => {
           >
             RECHERCHE OPERATIONNELLE
           </span>
-          <span style={{ color: "red", fontSize: "25px" }}>
+          <Stack style={{ color: "red" }} fontSize={{ xs: 16, md: 25 }}>
             Algorithme de DEMOUCRON
-          </span>
+          </Stack>
           <span
             style={{
               marginBottom: 20,
