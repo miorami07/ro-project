@@ -140,7 +140,7 @@ const Tableau = ({ nodes = [], edges = [] }) => {
       >
         <Stack
           direction={{ xs: "column", md: "row" }}
-          gap={{ xs: 2, md: 2 }}
+          gap={{ xs: 2, md: 1 }}
           justifyContent={"space-between"}
           alignItems="center"
           flexWrap="wrap"
@@ -254,6 +254,7 @@ const Tableau = ({ nodes = [], edges = [] }) => {
             flexWrap: "wrap",
             gap: 20,
             paddingTop: 10,
+            alignItems: { xs: "center", md: "flex-start" },
           }}
         >
           {steps.map((step, index) => (
@@ -302,6 +303,9 @@ const MatrixDisplay = ({
         width: { xs: "100%", sm: "80%", md: 500 },
         maxWidth: "100%",
         margin: { xs: "0 auto", md: "initial" },
+        alignItems: { xs: "center", md: "flex-start" },
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <h3
