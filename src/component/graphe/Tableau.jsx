@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { PathCostsContext } from "../../context/PathCostProvider";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 
 const Tableau = ({ nodes = [], edges = [] }) => {
   const [steps, setSteps] = useState([]);
@@ -129,100 +129,61 @@ const Tableau = ({ nodes = [], edges = [] }) => {
     nodes.length > 0 ? formatMatrix(getNumericMatrix(), 0).matrix : [];
 
   return (
-    <div>
+    <Stack>
       <Stack
-        direction={{ xs: "column", md: "column" }}
+        direction="column"
         gap={{ xs: 2, md: 2 }}
-        justifyContent={"space-between"}
-        alignItems={{ xs: "centerlex-start", md: "flex-start" }}
+        justifyContent={{ xs: "none", md: "space-between" }}
+        alignItems={{ xs: "center", md: "flex-start" }}
         flexWrap="wrap"
-        paddingTop={4}
+        padding={{ xs: 2, md: 0 }}
       >
         <Stack
-          direction={{ xs: "column", md: "row" }}
-          gap={{ xs: 2, md: 1 }}
+          direction="column"
+          gap={{ xs: 2, md: 2 }}
           justifyContent={"space-between"}
-          alignItems="center"
+          alignItems={{ xs: "center", md: "flex-start" }}
           flexWrap="wrap"
         >
-          <span
-            style={{
-              marginBottom: 20,
-              padding: "10px 16px",
-              backgroundColor: "green",
-              color: "white",
-              border: "none",
-              borderRadius: 4,
-              fontSize: "20px",
-              width: 200,
-              textAlign: "center",
-            }}
-          >
-            RECHERCHE OPERATIONNELLE
-          </span>
           <Stack style={{ color: "red" }} fontSize={{ xs: 16, md: 25 }}>
             Algorithme de DEMOUCRON
           </Stack>
-          <span
-            style={{
-              marginBottom: 20,
-              padding: "10px 16px",
-              backgroundColor: "green",
-              color: "white",
-              border: "none",
-              borderRadius: 4,
-              fontSize: "20px",
-              width: 200,
-              textAlign: "center",
-            }}
-          >
-            Chemin de valeur optimale
-          </span>
-        </Stack>
-        <Stack
-          direction={{ xs: "column", md: "row" }}
-          gap={{ xs: 2, md: 2 }}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-          flexWrap="wrap"
-        >
-          <button
+          <Button
             onClick={handleCalculate}
-            style={{
-              marginBottom: 20,
-              padding: "10px 16px",
+            variant="contained"
+            sx={{
               backgroundColor: "green",
               color: "white",
-              border: "none",
-              borderRadius: 4,
-              cursor: "pointer",
-              fontSize: "20px",
+              fontSize: { xs: "12px", md: "16px" },
+              px: { xs: 2, md: 3 },
+              py: { xs: 1, md: 1.5 },
+              borderRadius: 2,
+              whiteSpace: "nowrap",
+              textAlign: "center",
+              boxShadow: "0 0 5px 5px rgb(0, 0,0, 0.1)",
             }}
             disabled={nodes.length === 0}
           >
             Minimiser
-          </button>
-          <span></span>
-          <span></span>
+          </Button>
         </Stack>
       </Stack>
       {hasCalculated && (
         <div
           style={{
-            backgroundColor: "#e3f2fd",
-            padding: { xs: 12, md: 16 },
+            // backgroundColor: "#e3f2fd",
+            padding: { xs: 1, md: 16 },
             borderRadius: 4,
-            marginBottom: { xs: 10, md: 20 },
             fontSize: { xs: "16px", md: "20px" },
           }}
         >
           {shortestPath.length > 0 ? (
             <Stack
-              direction={{ xs: "column", sm: "row" }}
-              gap={{ xs: 1, sm: 2 }}
-              alignItems={{ xs: "flex-start", sm: "center" }}
+              direction={{ xs: "column", md: "row" }}
+              gap={{ xs: 0, md: 1 }}
+              alignItems={{ xs: "center", sm: "center" }}
               flexWrap="wrap"
-              padding={2}
+              padding={{ xs: 2, md: 0 }}
             >
               <div style={{ display: "flex", flexDirection: "row", gap: 2 }}>
                 <p>Résultat :</p>
@@ -236,7 +197,7 @@ const Tableau = ({ nodes = [], edges = [] }) => {
               </p>
             </Stack>
           ) : (
-            <p>Aucun chemin trouvé</p>
+            <Stack padding={{ xs: 2, sm: 2 }}>Aucun chemin trouvé</Stack>
           )}
         </div>
       )}
@@ -247,13 +208,12 @@ const Tableau = ({ nodes = [], edges = [] }) => {
           showChanges={false}
         />
       ) : (
-        <div
-          style={{
+        <Stack
+          sx={{
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
             flexWrap: "wrap",
-            gap: 20,
-            paddingTop: 10,
+            gap: 2,
             alignItems: { xs: "center", md: "flex-start" },
           }}
         >
@@ -266,9 +226,9 @@ const Tableau = ({ nodes = [], edges = [] }) => {
               referenceMatrix={steps[0].matrix}
             />
           ))}
-        </div>
+        </Stack>
       )}
-    </div>
+    </Stack>
   );
 };
 
@@ -283,7 +243,7 @@ const MatrixDisplay = ({
       <div
         style={{
           color: "#f44336",
-          padding: { xs: 12, md: 16 },
+          padding: { xs: 2, md: 16 },
           textAlign: "center",
         }}
       >
@@ -297,7 +257,7 @@ const MatrixDisplay = ({
       style={{
         marginBottom: { xs: 20, md: 30 },
         border: "1px solid #e0e0e0",
-        borderRadius: 4,
+        borderRadius: 12,
         padding: 10,
         backgroundColor: "#fff",
         width: { xs: "100%", sm: "80%", md: 500 },

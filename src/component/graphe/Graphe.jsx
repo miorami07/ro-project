@@ -121,13 +121,10 @@ const DynamicGraph = () => {
   }
   return (
     <Stack
-      style={{
-        width: "100%",
-        height: "100vh",
-        overflow: "hidden",
-        gap: 2,
-      }}
+      width={"100%"}
+      height={{ xs: "100vh", md: "100vh" }}
       direction={{ xs: "column", md: "row" }}
+      gap={2}
     >
       <Stack
         direction="column"
@@ -136,18 +133,19 @@ const DynamicGraph = () => {
         spacing={2}
         padding={{ xs: 2, md: 4 }}
         marginRight={{ xs: 10, md: 2 }}
+        border={{ xs: "'1px solid red", md: 0 }}
       >
         <Box
           sx={{
             background: "#fff",
-            p: 2,
             borderRadius: 2,
             boxShadow: 2,
+            p: 2,
           }}
         >
           <Stack direction="column" spacing={2}>
             <Stack
-              direction={{ xs: "column", sm: "row" }}
+              direction={{ xs: "row", sm: "row" }}
               spacing={2}
               alignItems={{ xs: "flex-start", md: "center" }}
               justifyContent="space-between"
@@ -163,7 +161,7 @@ const DynamicGraph = () => {
                   border: "1px solid lightblue",
                   borderRadius: 1,
                   padding: 1,
-                  width: { xs: "90%", sm: "50%" },
+                  width: { xs: "50%", sm: "50%" },
                 }}
               />
               <Button
@@ -172,11 +170,13 @@ const DynamicGraph = () => {
                 sx={{
                   backgroundColor: "green",
                   color: "white",
-                  fontSize: "16px",
+                  fontSize: { xs: "12px", md: "16px" },
                   px: { xs: 2, md: 3 },
                   py: { xs: 1, md: 1.5 },
-                  borderRadius: 1,
+                  borderRadius: 2,
                   whiteSpace: "nowrap",
+                  textAlign: "center",
+                  boxShadow: "0 0 5px 5px rgb(0, 0,0, 0.1)",
                 }}
               >
                 Ajouter un nœud
@@ -184,9 +184,9 @@ const DynamicGraph = () => {
             </Stack>
 
             <Stack
-              direction={{ xs: "column", sm: "row" }}
+              direction={{ xs: "row", sm: "row" }}
               spacing={2}
-              alignItems={{ xs: "flex-start", md: "center" }}
+              alignItems={{ xs: "center", md: "center" }}
               justifyContent="space-between"
             >
               <Input
@@ -200,13 +200,13 @@ const DynamicGraph = () => {
                   border: "1px solid lightblue",
                   borderRadius: 1,
                   padding: 1,
-                  width: { xs: "90%", sm: "50%" },
+                  width: { xs: "100%", sm: "50%" },
                 }}
               />
               <Typography
                 sx={{
                   fontSize: { xs: 14, md: 16 },
-                  width: { xs: "100%", sm: "auto" },
+                  width: { xs: "100%", sm: "50%" },
                 }}
               >
                 {linkingNode
@@ -225,7 +225,7 @@ const DynamicGraph = () => {
         </Box>
         <Box
           sx={{
-            height: { xs: "30vh", md: "100vh" },
+            height: { xs: "20vh", md: "100vh" },
             overflowX: "auto",
             overflowY: "hidden",
             border: "1px solid #ccc",
@@ -372,17 +372,20 @@ const DynamicGraph = () => {
         </Box>
       </Stack>
 
-      <div
+      <Stack
         style={{
           height: { xs: "50vh", md: "100%" },
           overflow: "auto",
           boxSizing: "border-box",
           width: "100%",
         }}
+        paddingTop={{ xs: 0, md: 4 }}
+        direction={"column"}
+        gap={2}
       >
         <Tableau nodes={nodes} edges={edges} />
         <Maximum nodes={nodes} edges={edges} />
-      </div>
+      </Stack>
     </Stack>
   );
 };
