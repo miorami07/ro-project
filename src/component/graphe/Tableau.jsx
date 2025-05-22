@@ -131,10 +131,10 @@ const Tableau = ({ nodes = [], edges = [] }) => {
   return (
     <div>
       <Stack
-        direction={{ xs: "column", md: "row" }}
+        direction={{ xs: "column", md: "column" }}
         gap={{ xs: 2, md: 2 }}
         justifyContent={"space-between"}
-        alignItems={"center"}
+        alignItems={{ xs: "centerlex-start", md: "flex-start" }}
         flexWrap="wrap"
         paddingTop={4}
       >
